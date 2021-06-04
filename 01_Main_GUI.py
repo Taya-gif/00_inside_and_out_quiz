@@ -5,10 +5,10 @@ import random
 
 
 class Start:
-    def __init__(self, parent):
+    def __init__(self, partner):
 
         # format variables...
-        background_color = "lightcoral"
+        background_color = "#95DEFE"
 
         # Start main screen GUI
         self.start_frame = Frame(width=1000, height=1000, bg=background_color,
@@ -16,17 +16,20 @@ class Start:
         self.start_frame.grid()
 
         # Temperature Conversion heading (row 0)
-        self.start_label = Label(self.start_frame, text="Temperature Start",
-                                          font=("Arial", "16", "bold"),
+        self.start_label = Label(self.start_frame, text="Inside and Out Quiz",
+                                         font=("Arial", "16", "bold"),
                                           bg=background_color,
                                           padx=10, pady=10)
         self.start_label.grid(row=0)
 
-        # history button (row 1)
-        self.his_button = Button(self.start_frame, text="History", bg="Salmon",
-                                 font=("Arial", "14"),
-                                 padx=10, pady=10, command=self.history)
-        self.his_button.grid(row=1)
+        # history / dismiss frame (row 1)
+        self.his_dis_frame = Frame(self.start_frame)
+        self.his_dis_frame.grid(row=1, pady=10)
+
+        self.his_button = Button(self.start_frame, text="History", bg="#95B8FE",
+                                 font=("Arial", "14"), width=5,
+                                 command=self.history)
+        self.his_button.grid(row=1, column=0)
 
     def history(self):
         print("You asked for history")
@@ -71,8 +74,6 @@ class History:
     def close_history(self, partner):
         partner.his_button.config(state=NORMAL)
         self.history_box.destroy()
-
-
 
 # main routine
 if __name__ == "__main__":
