@@ -3,6 +3,7 @@ from functools import partial   # To prevent unwanted windows
 
 import random
 
+
 class Start:
     def __init__(self, parent):
 
@@ -14,25 +15,36 @@ class Start:
                                  pady=10)
         self.start_frame.grid()
 
-        # Temperature Conversion heading (row 0)
+        # Quiz Name heading (row 0)
         self.start_label = Label(self.start_frame, text="Inside and Out Quiz",
                                           font=("Arial", "16", "bold"),
                                           bg=background_color,
                                           padx=10, pady=10)
         self.start_label.grid(row=0)
 
-        # history / help frame (row 1)
+        # Quiz breif (row 1)
+        self.start_brief = Label(self.start_frame, text="Press the start button to begin the quiz :)",
+                                 font=("Arial", "14"), bg=background_color)
+        self.start_brief.grid(row=1)
+
+        # start buttons (row 2)
+        self.start_button = Button(self.start_frame, text="start",
+                                   font=("Arial", "16", "bold"),
+                                   bg="#B0FCB7", width="10")
+        self.start_button.grid(row=2)
+
+        # history / help frame (row 3)
         self.hist_help_frame = Frame(self.start_frame)
-        self.hist_help_frame.grid(row=1, pady=10)
+        self.hist_help_frame.grid(row=3, pady=10)
 
         self.history_button = Button(self.hist_help_frame, text="History", bg="#95B8FE",
-                                     font=("Arial", "14"), width=5,
+                                     font=("Arial", "14"), width=8,
                                      command=self.history)
-        self.history_button.grid(row=0, column=0)
+        self.history_button.grid(row=3, column=0)
 
-        self.help_button = Button(self.hist_help_frame, font="Arial 12 bold",
-                                  text="Help", width=5, command=self.help)
-        self.help_button.grid(row=0, column=1)
+        self.help_button = Button(self.hist_help_frame, font="Arial 14", bg="#95B8FE",
+                                  text="Help", width=8, command=self.help)
+        self.help_button.grid(row=3, column=1)
 
     def history(self):
         print("You asked for history")
@@ -41,21 +53,19 @@ class Start:
 
     def help(self):
         get_help = Help(self)
-        get_help.help_text.configure(text="Please enter a number in the box "
-                                              "and then push one of the buttons "
-                                              " to convert the number to either  "
-                                              "degrees C or degrees F.\n\n"
-                                              "The Calculation History area shows "
-                                              "up to seven past calculations "
-                                              "(most recent at the top).  \n\nYou can "
-                                              "also export your full calculation "
-                                              "history to a text file if desired.")
+        get_help.help_text.configure(text="Press Start whenever you are ready, \n"
+                                          "You will then be asked questions and \n"
+                                          "you have three options \n"
+                                          "after you have answered press the next \n"
+                                          "question button \n"
+                                          "The program will then give you feedback \n"
+                                          "and send you onto the next question \n")
 
 
 class History:
     def __init__(self, partner):
 
-        background = "NavajoWhite"
+        background = "#D0CEFC"
 
         # disable history button
         partner.history_button.config(state=DISABLED)
@@ -82,7 +92,7 @@ class History:
 
         # Dismiss button (row 2)
         self.dismiss_btn = Button(self.history_frame, text="Dismiss",
-                                  width=10, bg="BurlyWood", font="arial 10 bold",
+                                  width=10, bg="#95B8FE", font="arial 10 bold",
                                   command=partial(self.close_history, partner))
         self.dismiss_btn.grid(row=2, pady=10)
 
@@ -93,7 +103,7 @@ class History:
 
 class Help:
     def __init__(self, partner):
-        background = "orange"
+        background = "#D0CEFC"
 
         # disable help button
         partner.help_button.config(state=DISABLED)
@@ -120,7 +130,7 @@ class Help:
 
         # Dismiss button (row 2)
         self.dismiss_btn = Button(self.help_frame, text="Dismiss",
-                                  width=10, bg="orange", font="arial 10 bold",
+                                  width=10, bg="#95B8FE", font="arial 10 bold",
                                   command=partial(self.close_help, partner))
         self.dismiss_btn.grid(row=2, pady=10)
 
