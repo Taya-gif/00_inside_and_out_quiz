@@ -16,22 +16,22 @@ class Start:
         self.start_frame.grid()
 
         # Quiz Name heading (row 0)
-        self.start_label = Label(self.start_frame, text="Inside and Out Quiz",
-                                          font=("Arial", "16", "bold"),
-                                          bg=background_color,
-                                          padx=10, pady=10)
-        self.start_label.grid(row=0)
+        self.quiz_label = Label(self.start_frame, text="Inside and Out Quiz",
+                                 font=("Arial", "16", "bold"),
+                                 bg=background_color,
+                                 padx=10, pady=10)
+        self.quiz_label.grid(row=0)
 
         # Quiz breif (row 1)
-        self.start_brief = Label(self.start_frame, text="Press the start button to begin the quiz :)",
+        self.quiz_brief = Label(self.start_frame, text="Press the start button to begin the quiz :)",
                                  font=("Arial", "14"), bg=background_color)
-        self.start_brief.grid(row=1)
+        self.quiz_brief.grid(row=1)
 
-        # start buttons (row 2)
-        self.start_button = Button(self.start_frame, text="start",
-                                   font=("Arial", "16", "bold"),
-                                   bg="#B0FCB7", width="10")
-        self.start_button.grid(row=2)
+        # quiz buttons (row 2)
+        self.quiz_button = Button(self.start_frame, text="start",
+                                  font=("Arial", "16", "bold"),
+                                  bg="#B0FCB7", width="10", command=self.quiz)
+        self.quiz_button.grid(row=2)
 
         # history / help frame (row 3)
         self.hist_help_frame = Frame(self.start_frame)
@@ -60,6 +60,12 @@ class Start:
                                           "question button \n"
                                           "The program will then give you feedback \n"
                                           "and send you onto the next question \n")
+
+    def quiz(self):
+        print("Pick A, B or C to answer the question")
+        get_quiz = Quiz(self)
+        get_quiz.quiz_text.configure(text="First question")
+
 
 class History:
     def __init__(self, partner):
@@ -137,6 +143,52 @@ class Help:
         # Put help button back to normal...
         partner.help_button.config(state=NORMAL)
         self.help_box.destroy()
+
+
+class Quiz:
+    def __init__(self, partner):
+
+        background = "#D0CEFC"
+
+        # disable quiz button
+        partner.quiz_button.config(state=DISABLED)
+
+        # set up quiz box
+        self.quiz_box = Toplevel()
+
+        # If uses closes the window - re open the quiz button
+        self.quiz_box.protocol('WM_DELETE_WINDOW', partial(self.close_quiz, partner))
+
+        # Quiz GUI frame
+        self.quiz_frame = Frame(self.quiz_box, width=300, bg=background)
+        self.quiz_frame.grid()
+
+        # set up History heading(row 0)
+        self.quiz_heading = Label(self.quiz_frame, text="History / Instructions",
+                                  font=("arial", "10", "bold"), bg=background)
+        self.quiz_heading.grid(row=0)
+
+        # quiz text (label, row 1)
+        self.quiz_text = Label(self.quiz_frame, text="",
+                               justify=LEFT, width=40, bg=background, wrap=250)
+        self.quiz_text.grid(column=0, row=1)
+
+        # Dismiss/next button Frame(row 3)
+        self.dis_next_frame = Frame(self.quiz_frame, bg=background)
+        self.dis_next_frame.grid(row=3, pady=10)
+
+        self.dismiss_btn = Button(self.dis_next_frame, text="Dismiss",
+                                  width=10, bg="#95B8FE", font="arial 10 bold",
+                                  command=partial(self.close_quiz, partner))
+        self.dismiss_btn.grid(row=3, pady=10, column=0)
+
+        self.next_btn = Button(self.dis_next_frame, text="Next", width=10, bg="#95B8FE",
+                               font="arial 10 bold")
+        self.next_btn.grid(row=3, column=1)
+
+    def close_quiz(self, partner):
+        partner.quiz_button.config(state=NORMAL)
+        self.quiz_box.destroy()
 
 
 
