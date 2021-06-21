@@ -64,7 +64,7 @@ class Start:
     def quiz(self):
         print("Pick A, B or C to answer the question")
         get_quiz = Quiz(self)
-        get_quiz.quiz_text.configure(text="First question")
+        get_quiz.quiz_text.configure(text="Pick A, B or C to answer the question")
 
 
 class History:
@@ -163,28 +163,55 @@ class Quiz:
         self.quiz_frame = Frame(self.quiz_box, width=300, bg=background)
         self.quiz_frame.grid()
 
-        # set up History heading(row 0)
-        self.quiz_heading = Label(self.quiz_frame, text="History / Instructions",
-                                  font=("arial", "10", "bold"), bg=background)
-        self.quiz_heading.grid(row=0)
+        # set up quiz heading(row 0)
+        self.quiz_heading = Label(self.quiz_frame, text="Inside and Out Quiz",
+                                  font=("arial", "13", "bold"), bg=background)
+        self.quiz_heading.grid(row=0, pady=15, padx=15)
 
         # quiz text (label, row 1)
-        self.quiz_text = Label(self.quiz_frame, text="",
+        self.quiz_text = Label(self.quiz_frame, text="", font="Arial 10 bold",
                                justify=LEFT, width=40, bg=background, wrap=250)
         self.quiz_text.grid(column=0, row=1)
 
-        # Dismiss/next button Frame(row 3)
+        # question label (row 2)
+        self.question_text = Label(self.quiz_frame, text="What's not a function of the skeletal system? \n"
+                                                         "A, protection  B, support  C, digestion",
+                                   width=40, bg=background, wrap=250)
+        self.question_text.grid(row=2)
+
+        # Quiz Question Frame (row 3)
+        self.question_frame = Frame(self.quiz_frame, bg=background)
+        self.question_frame.grid(row=3, pady=10)
+
+        self.a_button = Button(self.question_frame, text="A", width="10",
+                               bg="#BABCE2", font="arial 10 bold")
+        self.a_button.grid(row=3, column=0)
+
+        self.b_button = Button(self.question_frame, text="B", width="10",
+                               bg="#BABCE2", font="arial 10 bold")
+        self.b_button.grid(row=3, column=1)
+
+        self.c_button = Button(self.question_frame, text="C", width="10",
+                               bg="#BABCE2", font="arial 10 bold")
+        self.c_button.grid(row=3, column=3)
+
+        # Quiz feedback(row 4)
+        self.quiz_feedback = Label(self.quiz_frame, text="Feedback", font=("arial", "13", "bold"),
+                                   width="40", wrap=250, bg=background)
+        self.quiz_feedback.grid(row=4, column=0)
+
+        # Dismiss/next button Frame(row 5)
         self.dis_next_frame = Frame(self.quiz_frame, bg=background)
-        self.dis_next_frame.grid(row=3, pady=10)
+        self.dis_next_frame.grid(row=5)
 
         self.dismiss_btn = Button(self.dis_next_frame, text="Dismiss",
                                   width=10, bg="#95B8FE", font="arial 10 bold",
                                   command=partial(self.close_quiz, partner))
-        self.dismiss_btn.grid(row=3, pady=10, column=0)
+        self.dismiss_btn.grid(row=5, pady=10, column=0)
 
         self.next_btn = Button(self.dis_next_frame, text="Next", width=10, bg="#95B8FE",
                                font="arial 10 bold")
-        self.next_btn.grid(row=3, column=1)
+        self.next_btn.grid(row=5, column=1)
 
     def close_quiz(self, partner):
         partner.quiz_button.config(state=NORMAL)
